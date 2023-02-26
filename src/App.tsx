@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { fetchQuizQuestions, QuestionsState } from './API';
 //Components
+import QuestionCard from './components/QuestionCard';
 //Types
 import { Difficulty } from './API';
 
@@ -26,7 +27,7 @@ const App = () => {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
 
-  console.log(fetchQuizQuestions(TOTAL_QUESTIONS, Difficulty.EASY))
+ 
 
 
   const startTrivia = async () => { 
@@ -50,7 +51,7 @@ const App = () => {
 
   };
   
-  const checkAnwer = (e: React.MouseEvent<HTMLButtonElement>) =>{
+  const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) =>{
 
   }
 
@@ -64,21 +65,31 @@ const App = () => {
 
   return (
     <div className="App">
-     <h1>React Quiz</h1>
-     <button className='start' onClick={startTrivia}> Start </button>
-     <p className='score'> Score:</p>
+     <h1>Quiz-app</h1>
      
-     <p>Loading Questions....</p> 
+      {gameOver || userAnswer.length === TOTAL_QUESTIONS ? (
 
-     {/* <QuestionCard 
+      
+     <button className='start' onClick={startTrivia}> Start </button>
+      ) : null}
+     
+     {!gameOver ? <p className='score'> Score: </p> :null}
+     
+     {loading && <p>Loading Questions....</p> }
+
+    {!loading&&!gameOver &&  (  
+    
+    
+      <QuestionCard 
      questionNr={number +1}
      totalQuestions = {TOTAL_QUESTIONS}
      question = {questions[number].question}
      answers = {questions[number].answers}
-     userAnswer = {userAnswers ? userAnswers[number]:undefined}
+     userAnswer = {userAnswer ? userAnswer[number]:undefined}
      callback = {checkAnswer}
      
-     /> */}
+     />
+       )}
      <button className='next' onClick={nextQuestion}>Next question</button>
     </div>
   );
